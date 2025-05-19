@@ -1,22 +1,28 @@
 <script>
-  import { chatVisible, codeGeneratorInput, codeGeneratorOutput } from "../lib/Stores";
-  import { fade, fly, scale } from "svelte/transition";
-  import { elasticOut, cubicOut } from "svelte/easing";
-  import { onMount } from "svelte";
+  // Gerekli bileşenlerin ve kütüphanelerin içe aktarılması
+  import { chatVisible, codeGeneratorInput, codeGeneratorOutput } from "../lib/Stores"; // Durum yönetimi için store'lar
+  import { fade, fly, scale } from "svelte/transition"; // Animasyon efektleri
+  import { elasticOut, cubicOut } from "svelte/easing"; // Yumuşatma fonksiyonları
+  import { onMount } from "svelte"; // Bileşen yüklendiğinde çalışacak fonksiyon
   
-  // State variables
-  let inputCode = "";
-  let isLoading = false;
-  let isVisible = false;
+  // Durum değişkenleri
+  let inputCode = ""; // Kullanıcının girdiği kod istemi
+  let isLoading = false; // Yükleme durumunu takip etmek için
+  let isVisible = false; // Bileşenin görünürlüğünü kontrol etmek için
   
-  // Handle code generation
+  // Kod üretimini başlatmak için fonksiyon
+  // Kullanıcının girdisini backend sunucusuna gönderir ve AI yanıtını alır
   async function handleGenerate() {
+    // Boş girdi kontrolü
     if (!inputCode.trim()) return;
     
+    // Yükleme durumunu başlat
     isLoading = true;
     
     try {
+      // Kullanıcı girdisini JSON formatında hazırla
       const input = { prompt: inputCode };
+      // Backend API'sine HTTP POST isteği gönder
       const res = await fetch("http://localhost:3000/chat", {
         method: "POST",
         headers: {
@@ -25,23 +31,29 @@
         body: JSON.stringify(input),
       });
       
+      // Sunucudan başarısız yanıt gelirse hata fırlat
       if (!res.ok) {
         throw new Error("Failed to generate code");
       }
       
+      // Sunucu yanıtını JSON olarak çözümle
       const data = await res.json();
-      $codeGeneratorInput = inputCode;
-      $codeGeneratorOutput = data.data.response;
-      $chatVisible = true;
+      // Store'ları güncelle (global durum yönetimi)
+      $codeGeneratorInput = inputCode;    // Kullanıcının girdisi
+      $codeGeneratorOutput = data.data.response;  // AI'nın yanıtı
+      $chatVisible = true;  // Sohbet penceresini görünür yap
     } catch (error) {
       console.error("Error:", error);
     } finally {
+      // İşlem tamamlandığında yükleme durumunu kapat
       isLoading = false;
     }
   }
   
-  // Animation on component mount
+  // Bileşen yüklendiğinde animasyon ayarı
+  // Sayfaya yumuşak bir giriş efekti sağlar
   onMount(() => {
+    // Kısa bir gecikme ile bileşeni görünür yap (giriş animasyonu için)
     setTimeout(() => {
       isVisible = true;
     }, 300);

@@ -102,42 +102,49 @@
       },
     ];
 
-    // Simulate AI response
+    // Sonra AI yanıtını sohbet geçmişine ekle
     $chatMessages = [
       ...$chatMessages,
       {
-        type: "ai",
-        content: data.data.response,
-        timestamp: new Date(),
+        type: "ai",  // AI mesajı
+        content: data.data.response,  // Sunucudan gelen yanıt
+        timestamp: new Date(),  // Zaman damgası
       },
     ];
 
+    // Mesajı gönderdikten sonra giriş alanını temizle
     newMessage = "";
   }
   
-  // Copy function for the small button
+  // Küçük kopyalama butonu için fonksiyon
+  // Metni panoya kopyalar
   function copyContent(text) {
     navigator.clipboard.writeText(text)
       .then(() => {
-        // Could add a small notification here
+        // Burada küçük bir bildirim eklenebilir
       })
       .catch(err => {
         console.error('Failed to copy: ', err);
       });
   }
 
+  // Sohbet penceresini kapatma fonksiyonu
+  // Pencereyi gizler ve sohbet geçmişini temizler
   function closeChat(): void {
-    $chatVisible = false;
-    $chatMessages = [];
-    $codeGeneratorInput = "";
+    $chatVisible = false;  // Pencereyi görünmez yap
+    $chatMessages = [];    // Sohbet geçmişini sıfırla
+    $codeGeneratorInput = "";  // Kod üretici girdisini temizle
   }
 
+  // Klavye kısayolu - Enter tuşuna basılınca mesaj gönderme
   function handleKeydown(e: KeyboardEvent): void {
     if (e.key === "Enter") {
       sendMessage();
     }
   }
 
+  // Reactive statement - sohbet konteynerinin içeriği değiştiğinde
+  // otomatik olarak en alta kaydır (yeni mesajları görüntülemek için)
   $: if (chatContainer) {
     chatContainer.scrollTop = chatContainer.scrollHeight;
   }

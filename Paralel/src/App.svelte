@@ -1,20 +1,23 @@
 <script>
-  import Navbar from "./components/Navbar.svelte";
-  import Hero from "./components/Hero.svelte";
-  import CodeGenerator from "./components/CodeGenerator.svelte";
-  import Footer from "./components/Footer.svelte";
-  import HowitWorks from "./components/HowItWorks.svelte";
-  import { chatVisible } from "./lib/Stores";
-  import ChatWindow from "./components/ChatWindow.svelte";
-  import About from "./components/About.svelte";
-  import { onMount } from "svelte";
+  // Gerekli bileşenlerin içe aktarılması
+  import Navbar from "./components/Navbar.svelte";  // Navigasyon çubuğu
+  import Hero from "./components/Hero.svelte";  // Ana tanıtım bölümü
+  import CodeGenerator from "./components/CodeGenerator.svelte";  // Kod üretim arayüzü
+  import Footer from "./components/Footer.svelte";  // Alt bilgi bölümü
+  import HowitWorks from "./components/HowItWorks.svelte";  // Nasıl çalışır bölümü
+  import { chatVisible } from "./lib/Stores";  // Sohbet penceresinin görünürlüğü için store
+  import ChatWindow from "./components/ChatWindow.svelte";  // Sohbet penceresi bileşeni
+  import About from "./components/About.svelte";  // Hakkında bölümü
+  import { onMount } from "svelte";  // Bileşen yüklenme olayı
   
-  // Enhanced smooth scrolling
+  // Gelişmiş yumuşak kaydırma özellikleri
+  // Kullanıcı deneyimini iyileştirmek için sayfa içi gezinmeyi optimize eder
   onMount(() => {
-    // Add smooth scroll behavior to the document
+    // Belgeye yumuşak kaydırma davranışı ekle
     document.documentElement.style.scrollBehavior = "smooth";
     
-    // Handle hash links on page load
+    // Sayfa yüklenirken URL'deki hash bağlantılarını işle
+    // Örnek: site.com/#section-id gibi bir URL yüklendiğinde o bölüme kaydırır
     if (window.location.hash) {
       const targetId = window.location.hash.substring(1);
       const targetElement = document.getElementById(targetId);
@@ -53,19 +56,23 @@
       }
     }
     
-    // Add scrolling progress indicator
+    // Kaydırma ilerleme çubuğu ekle
+    // Kullanıcıya sayfada nerede olduğunu gösteren bir ilerleme çubuğu oluşturur
     const progressBar = document.createElement('div');
     progressBar.className = 'scroll-progress-bar';
     document.body.appendChild(progressBar);
     
+    // Sayfa kaydırıldığında ilerleme çubuğunu güncelle
+    // Kullanıcının sayfayı ne kadar kaydırdığını yüzde olarak hesaplar
     document.addEventListener('scroll', () => {
       const scrollTop = document.documentElement.scrollTop;
       const scrollHeight = document.documentElement.scrollHeight;
       const clientHeight = document.documentElement.clientHeight;
       
+      // Kaydırma yüzdesi hesaplama
       const scrolled = (scrollTop / (scrollHeight - clientHeight)) * 100;
-      progressBar.style.width = scrolled + '%';
-    }, { passive: true });
+      progressBar.style.width = scrolled + '%';  // Çubuğun genişliğini ayarla
+    }, { passive: true });  // Pasif dinleyici performans için
     
     return () => {
       document.body.removeChild(progressBar);
