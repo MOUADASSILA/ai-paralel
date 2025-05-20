@@ -1,5 +1,7 @@
 # AI Paralel Projesi
 
+This web application was created as a homework project for the Paralel Programlama course. It demonstrates how artificial intelligence can be used to generate code based on simple descriptions.
+
 ## Proje Tanımı
 
 AI Paralel, yapay zeka destekli kod üretimi sağlayan modern bir web uygulamasıdır. Kullanıcıların doğal dil ile tanımladıkları programlama görevlerini, yapay zeka teknolojisi kullanarak otomatik olarak işlevsel ve optimize edilmiş kod parçalarına dönüştürür. Özellikle paralel programlama konusunda uzmanlaşarak, geliştiricilerin daha hızlı ve verimli çalışmalarını sağlamayı hedeflemektedir.
@@ -85,4 +87,3 @@ npm start
 - Kod çalıştırma ve test etme imkanı
 - Birden fazla programlama dili desteği
 - GitHub entegrasyonu
-
